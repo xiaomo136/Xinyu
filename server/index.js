@@ -109,11 +109,26 @@ async function handleApiRequest(req, res, requestUrl) {
   }
 
   if (req.method === "POST" && requestUrl.pathname === "/api/asr/recognize") {
-    const body = await readJsonBody(req);
-    const result = await asrService.transcribe(body);
+    const contentType = (req.headers["content-type"] || "").toLowerCase();
+
+    if (contentType.includes("application/json")) {
+      const body = await readJsonBody(req);
+      const result = await asrService.transcribe(body);
+      sendJson(res, 200, {
+        ok: true,
+        ...result
+      });
+      return;
+    }
+
+    // 兼容评测口径：Body 直接上传二进制 mp3，返回 {"result":"..."}
+    const binary = await readBinaryBody(req);
+    const result = await asrService.transcribe({
+      audioBase64: binary.toString("base64"),
+      mimeType: contentType || "audio/mpeg"
+    });
     sendJson(res, 200, {
-      ok: true,
-      ...result
+      result: result.text
     });
     return;
   }
@@ -153,7 +168,8 @@ async function handleApiRequest(req, res, requestUrl) {
 }
 
 async function serveStatic(res, pathname) {
-  const safePath = pathname === "/" ? "/index.html" : pathname;
+  const rawPath = pathname === "/" ? "/index.html" : pathname;
+  const safePath = decodeURIComponent(rawPath);
   const resolvedPath = path.normalize(path.join(publicDir, safePath));
   if (!resolvedPath.startsWith(publicDir)) {
     sendJson(res, 403, { ok: false, error: "禁止访问" });
@@ -200,6 +216,14 @@ async function readJsonBody(req) {
   }
   const raw = Buffer.concat(chunks).toString("utf-8");
   return raw ? JSON.parse(raw) : {};
+}
+
+async function readBinaryBody(req) {
+  const chunks = [];
+  for await (const chunk of req) {
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks);
 }
 
 function getLanUrls(port) {

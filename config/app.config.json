@@ -12,6 +12,7 @@
     "safetyBoundary": "你不能做临床诊断。遇到明显高风险表达时，应先安抚并建议联系家人、医生或专业热线。"
   },
   "conversation": {
+    "mode": "repeater",
     "maxHistoryTurns": 12,
     "summarySourceTurns": 8,
     "maxReplyChars": 160
@@ -64,7 +65,12 @@
       }
     },
     "avatar": {
-      "type": "placeholder"
+      "type": "live2d",
+      "live2d": {
+        "modelPath": "/avatar/sentio/characters/free/Hiyori/Hiyori.model3.json",
+        "scale": 1,
+        "lipFactor": 5.0
+      }
     }
   },
   "safety": {

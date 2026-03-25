@@ -10,6 +10,7 @@ export class ChatService {
     this.mockLLM = createMockLLM();
     this.primaryLLM =
       config.providers.llm.type === "ollama" ? createOllamaLLM(config) : this.mockLLM;
+    this.chatMode = `${config.conversation?.mode ?? "dialogue"}`.toLowerCase();
   }
 
   async chat({ text, speechEmotion, faceEmotion }) {
@@ -25,23 +26,31 @@ export class ChatService {
       config: this.config
     });
 
-    const messages = this.buildMessages(cleanText, analysis);
     let reply;
-    let providerName = this.primaryLLM.name;
+    let providerName;
 
-    try {
-      reply = await this.primaryLLM.generateReply({
-        text: cleanText,
-        analysis,
-        messages
-      });
-    } catch {
-      providerName = `${this.primaryLLM.name} -> mock`;
-      reply = await this.mockLLM.generateReply({
-        text: cleanText,
-        analysis,
-        messages
-      });
+    if (this.chatMode === "repeater" || this.chatMode === "echo") {
+      // 复读机模式：直接复述用户输入，保持可验证、低偏差输出。
+      reply = cleanText;
+      providerName = "repeater";
+    } else {
+      const messages = this.buildMessages(cleanText, analysis);
+      providerName = this.primaryLLM.name;
+
+      try {
+        reply = await this.primaryLLM.generateReply({
+          text: cleanText,
+          analysis,
+          messages
+        });
+      } catch {
+        providerName = `${this.primaryLLM.name} -> mock`;
+        reply = await this.mockLLM.generateReply({
+          text: cleanText,
+          analysis,
+          messages
+        });
+      }
     }
 
     const avatar = mapAvatarState(analysis);

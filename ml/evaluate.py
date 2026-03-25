@@ -6,7 +6,17 @@ from pathlib import Path
 
 import numpy as np
 
-from ml.metrics import frcorr, frdist, frdiv, frdvs, frsyn, frvar, load_neighbors
+from ml.metrics import (
+    frcorr,
+    frdist,
+    frdiv,
+    frdvs,
+    frsyn,
+    frvar,
+    load_neighbors,
+    pmafrg_frcorr,
+    pmafrg_frdist,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,7 +47,9 @@ def main() -> None:
 
     results = {
         "FRCorr": frcorr(predictions, references, neighbors=neighbors),
+        "PMAFRG-FRCorr": pmafrg_frcorr(predictions, references, neighbors=neighbors),
         "FRdist": frdist(predictions, references, neighbors=neighbors, dtw_stride=args.dtw_stride),
+        "PMAFRG-FRdist": pmafrg_frdist(predictions, references, neighbors=neighbors, dtw_stride=args.dtw_stride),
         "FRDiv": frdiv(predictions),
         "FRDvs": frdvs(predictions),
         "FRVar": frvar(predictions),

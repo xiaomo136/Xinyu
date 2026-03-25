@@ -6,6 +6,8 @@ let submitInFlight = false;
 let playbackAudio = null;
 let playbackAudioUrl = null;
 let audioUnlocked = false;
+const ttsPlaybackQueue = [];
+let ttsPlaybackConsuming = false;
 let voiceLoop = createVoiceLoopState();
 let asrStatus = {
   ready: false,
@@ -33,17 +35,39 @@ const ttsSwitchHint = document.getElementById("ttsSwitchHint");
 const ttsWindowsButton = document.getElementById("ttsWindowsButton");
 const ttsGiteeButton = document.getElementById("ttsGiteeButton");
 const ttsEdgeButton = document.getElementById("ttsEdgeButton");
+const live2dModelSelect = document.getElementById("live2dModelSelect");
+const live2dModelHint = document.getElementById("live2dModelHint");
 const avatarStage = document.getElementById("avatarStage");
 const unlockAudioButton = document.getElementById("unlockAudioButton");
 const audioHint = document.getElementById("audioHint");
 const speechRateSlider = document.getElementById("speechRateSlider");
 const speechRateValue = document.getElementById("speechRateValue");
+const live2dLipFactorSlider = document.getElementById("live2dLipFactorSlider");
+const live2dLipFactorValue = document.getElementById("live2dLipFactorValue");
 const realtimeHint = document.getElementById("realtimeHint");
+
+const LIVE2D_MODELS = [
+  { key: "Sea hare", path: "/avatar/live2d/Sea%20hare/Sea%20hare.model3.json" },
+  { key: "Chitose", path: "/avatar/sentio/characters/free/Chitose/Chitose.model3.json" },
+  { key: "Epsilon", path: "/avatar/sentio/characters/free/Epsilon/Epsilon.model3.json" },
+  { key: "Haru", path: "/avatar/sentio/characters/free/Haru/Haru.model3.json" },
+  { key: "HaruGreeter", path: "/avatar/sentio/characters/free/HaruGreeter/HaruGreeter.model3.json" },
+  { key: "Hibiki", path: "/avatar/sentio/characters/free/Hibiki/Hibiki.model3.json" },
+  { key: "Hiyori", path: "/avatar/sentio/characters/free/Hiyori/Hiyori.model3.json" },
+  { key: "Izumi", path: "/avatar/sentio/characters/free/Izumi/Izumi.model3.json" },
+  { key: "Kei", path: "/avatar/sentio/characters/free/Kei/Kei.model3.json" },
+  { key: "Mao", path: "/avatar/sentio/characters/free/Mao/Mao.model3.json" },
+  { key: "Rice", path: "/avatar/sentio/characters/free/Rice/Rice.model3.json" },
+  { key: "Shizuku", path: "/avatar/sentio/characters/free/Shizuku/Shizuku.model3.json" },
+  { key: "Tsumiki", path: "/avatar/sentio/characters/free/Tsumiki/Tsumiki.model3.json" }
+];
 
 window.setTtsProvider = switchTtsProvider;
 window.setSpeechRate = (value) => setSpeechRate(value, { announce: true });
 window.startRealtimeVoice = startRealtimeConversation;
 window.stopRealtimeVoice = () => stopRealtimeConversation({ announce: true });
+window.setLive2DModel = (modelName) => switchLive2DModel(modelName, { announce: true });
+window.setLive2DLipFactor = (value) => setLive2DLipFactor(value, { announce: true });
 
 boot();
 
@@ -59,9 +83,58 @@ async function boot() {
   await loadHealth();
   await loadHistory();
 
-  initAvatar();
+  initLive2DModelSelector();
+  await initAvatar();
   renderQuickPhrases();
   updateProviderValues();
+}
+
+function getActiveLive2DModelKey() {
+  const configuredPath = appConfig?.providers?.avatar?.live2d?.modelPath;
+  const found = LIVE2D_MODELS.find((item) => item.path === configuredPath);
+  return found?.key ?? "Sea hare";
+}
+
+function initLive2DModelSelector() {
+  if (!live2dModelSelect) {
+    return;
+  }
+
+  live2dModelSelect.innerHTML = "";
+  for (const model of LIVE2D_MODELS) {
+    const option = document.createElement("option");
+    option.value = model.key;
+    option.textContent = model.key;
+    live2dModelSelect.appendChild(option);
+  }
+
+  live2dModelSelect.value = getActiveLive2DModelKey();
+  if (live2dModelHint) {
+    live2dModelHint.textContent = `当前模型：${live2dModelSelect.value}。也可在控制台执行 window.setLive2DModel("Hiyori")。`;
+  }
+
+  live2dModelSelect.addEventListener("change", () => {
+    void switchLive2DModel(live2dModelSelect.value, { announce: true });
+  });
+}
+
+async function switchLive2DModel(modelName, { announce = false } = {}) {
+  const target = LIVE2D_MODELS.find((item) => item.key === modelName);
+  if (!target || !appConfig?.providers?.avatar?.live2d) {
+    return;
+  }
+
+  appConfig.providers.avatar.live2d.modelPath = target.path;
+  await initAvatar();
+  if (live2dModelSelect) {
+    live2dModelSelect.value = target.key;
+  }
+  if (live2dModelHint) {
+    live2dModelHint.textContent = `当前模型：${target.key}。也可在控制台执行 window.setLive2DModel("Hiyori")。`;
+  }
+  if (announce) {
+    appendMessage("assistant", `已切换到 ${target.key} 模型。`, "模型切换");
+  }
 }
 
 async function loadConfig() {
@@ -103,8 +176,16 @@ async function loadHistory() {
   }
 }
 
-function initAvatar() {
-  if (window.createPlaceholderAvatarAdapter) {
+async function initAvatar() {
+  if (window.createLive2DAvatarAdapter && appConfig?.providers?.avatar?.type !== "placeholder") {
+    try {
+      avatarAdapter = await window.createLive2DAvatarAdapter(avatarStage, appConfig.providers.avatar);
+    } catch (error) {
+      console.warn("[avatar] live2d init failed, fallback to placeholder", error);
+    }
+  }
+
+  if (!avatarAdapter && window.createPlaceholderAvatarAdapter) {
     avatarAdapter = window.createPlaceholderAvatarAdapter(avatarStage, appConfig.providers.avatar);
   }
 
@@ -113,6 +194,11 @@ function initAvatar() {
     subtitle: "你好呀，我是心语。你可以把今天的心情慢慢告诉我。",
     accent: "#4b8f8c"
   });
+
+  if (playbackAudio) {
+    avatarAdapter?.bindAudioElement?.(playbackAudio);
+  }
+  setLive2DLipFactor(getCurrentLive2DLipFactor(), { announce: false, persist: false });
 }
 
 function renderQuickPhrases() {
@@ -160,6 +246,12 @@ function bindEvents() {
   });
   speechRateSlider.addEventListener("change", () => {
     appendMessage("assistant", `播报语速已调整为 ${ttsSettings.speechRate.toFixed(2)}x。`, "语音设置");
+  });
+  live2dLipFactorSlider?.addEventListener("input", (event) => {
+    setLive2DLipFactor(event.target.value, { announce: false, persist: false });
+  });
+  live2dLipFactorSlider?.addEventListener("change", (event) => {
+    setLive2DLipFactor(event.target.value, { announce: true, persist: true });
   });
   messageInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -322,6 +414,38 @@ function setSpeechRate(value, { announce = false } = {}) {
     appendMessage("assistant", `播报语速已调整为 ${normalized.toFixed(2)}x。`, "语音设置");
   }
   return normalized;
+}
+
+function getCurrentLive2DLipFactor() {
+  const configured = Number(appConfig?.providers?.avatar?.live2d?.lipFactor);
+  if (Number.isFinite(configured)) {
+    return Math.min(10, Math.max(0, configured));
+  }
+  return 5;
+}
+
+function setLive2DLipFactor(value, { announce = false, persist = true } = {}) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return;
+  }
+
+  const next = Math.min(10, Math.max(0, numeric));
+  if (persist && appConfig?.providers?.avatar?.live2d) {
+    appConfig.providers.avatar.live2d.lipFactor = next;
+  }
+  avatarAdapter?.setLipFactor?.(next);
+
+  if (live2dLipFactorSlider) {
+    live2dLipFactorSlider.value = String(next);
+  }
+  if (live2dLipFactorValue) {
+    live2dLipFactorValue.textContent = `${next.toFixed(1)}x`;
+  }
+
+  if (announce) {
+    appendMessage("assistant", `唇形系数已调整为 ${next.toFixed(1)}x。`, "Live2D 设置");
+  }
 }
 
 async function switchTtsProvider(providerName) {
@@ -687,6 +811,38 @@ function fallbackToBrowserAsr(message) {
 }
 
 async function playReplyAudio(text) {
+  return enqueueTtsPlayback(text);
+}
+
+function enqueueTtsPlayback(text) {
+  return new Promise((resolve) => {
+    ttsPlaybackQueue.push({ text, resolve });
+    if (!ttsPlaybackConsuming) {
+      void consumeTtsPlaybackQueue();
+    }
+  });
+}
+
+async function consumeTtsPlaybackQueue() {
+  if (ttsPlaybackConsuming) {
+    return;
+  }
+
+  ttsPlaybackConsuming = true;
+  while (ttsPlaybackQueue.length) {
+    const task = ttsPlaybackQueue.shift();
+    if (!task?.text) {
+      task?.resolve?.();
+      continue;
+    }
+
+    await playReplyAudioNow(task.text);
+    task.resolve?.();
+  }
+  ttsPlaybackConsuming = false;
+}
+
+async function playReplyAudioNow(text) {
   try {
     const response = await fetch("/api/tts/synthesize", {
       method: "POST",
@@ -708,7 +864,7 @@ async function playReplyAudio(text) {
       return;
     }
 
-    await playBase64Audio(data.audioBase64, data.mimeType);
+    await playBase64Audio(data.audioBase64, data.mimeType, text);
   } catch {
     try {
       await speakInBrowser(text);
@@ -723,6 +879,7 @@ function initPlaybackAudio() {
   playbackAudio.preload = "auto";
   playbackAudio.playsInline = true;
   playbackAudio.setAttribute("playsinline", "true");
+  avatarAdapter?.bindAudioElement?.(playbackAudio);
 }
 
 async function unlockAudioPlayback(showFeedback) {
@@ -763,7 +920,7 @@ async function unlockAudioPlayback(showFeedback) {
   }
 }
 
-async function playBase64Audio(audioBase64, mimeType = "audio/wav") {
+async function playBase64Audio(audioBase64, mimeType = "audio/wav", text = "") {
   if (!audioBase64) {
     throw new Error("音频内容为空");
   }
@@ -771,20 +928,26 @@ async function playBase64Audio(audioBase64, mimeType = "audio/wav") {
   stopAllAudioPlayback();
   await unlockAudioPlayback(false);
 
-  const blob = new Blob([base64ToUint8Array(audioBase64)], { type: mimeType });
-  playbackAudioUrl = URL.createObjectURL(blob);
-  playbackAudio.src = playbackAudioUrl;
+  const audioBytes = base64ToUint8Array(audioBase64);
+  const payload = audioBytes.buffer.slice(
+    audioBytes.byteOffset,
+    audioBytes.byteOffset + audioBytes.byteLength
+  );
 
-  const playbackEnded = waitForAudioEnd(playbackAudio);
+  avatarAdapter?.pushAudioQueue?.(payload);
   try {
-    await playbackAudio.play();
+    await avatarAdapter?.startLipSync?.();
+    await avatarAdapter?.playQueuedAudio?.();
   } catch (error) {
+    avatarAdapter?.stopLipSync?.();
+    avatarAdapter?.stopAudio?.();
     stopAllAudioPlayback();
     throw error;
+  } finally {
+    avatarAdapter?.stopLipSync?.();
   }
   audioUnlocked = true;
   updateAudioHint();
-  await playbackEnded;
 }
 
 function waitForAudioEnd(audio) {
@@ -800,11 +963,13 @@ function waitForAudioEnd(audio) {
 
     const handleEnded = () => {
       cleanup();
+      avatarAdapter?.stopLipSync?.();
       resolve();
     };
 
     const handleError = () => {
       cleanup();
+      avatarAdapter?.stopLipSync?.();
       reject(new Error("音频播放失败"));
     };
 
@@ -814,15 +979,24 @@ function waitForAudioEnd(audio) {
 }
 
 function stopAllAudioPlayback() {
+  while (ttsPlaybackQueue.length) {
+    const pending = ttsPlaybackQueue.shift();
+    pending?.resolve?.();
+  }
+
+  avatarAdapter?.stopAudio?.();
+
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
 
   if (!playbackAudio) {
+    avatarAdapter?.stopLipSync?.();
     return;
   }
 
   playbackAudio.pause();
+  avatarAdapter?.stopLipSync?.();
   playbackAudio.currentTime = 0;
   playbackAudio.removeAttribute("src");
   playbackAudio.load();
@@ -852,12 +1026,18 @@ async function speakInBrowser(text) {
       utterance.voice = preferredVoice;
     }
 
+    utterance.onstart = () => {
+      avatarAdapter?.startPseudoLipSync?.();
+    };
+
     utterance.onend = () => {
+      avatarAdapter?.stopLipSync?.();
       audioUnlocked = true;
       updateAudioHint();
       resolve();
     };
     utterance.onerror = () => {
+      avatarAdapter?.stopLipSync?.();
       reject(new Error("浏览器语音播报失败"));
     };
 

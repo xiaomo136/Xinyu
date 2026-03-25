@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>心语 Web</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260325" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -92,6 +93,19 @@
             </div>
           </div>
           <div class="status-box">
+            <span class="status-title">Live2D 模型</span>
+            <p id="live2dModelHint">可直接切换默认免费模型，无需重启服务。</p>
+            <div class="slider-row">
+              <label for="live2dModelSelect">当前模型</label>
+              <select id="live2dModelSelect"></select>
+            </div>
+            <div class="slider-row">
+              <label for="live2dLipFactorSlider">唇形系数</label>
+              <input id="live2dLipFactorSlider" type="range" min="0" max="10" step="0.1" value="5" />
+              <strong id="live2dLipFactorValue">5.0x</strong>
+            </div>
+          </div>
+          <div class="status-box">
             <span class="status-title">后续扩展</span>
             <p>当前是占位数字人舞台，后续可以直接替换成 Live2D 渲染适配器。</p>
           </div>
@@ -108,7 +122,11 @@
       </section>
     </main>
 
+    <script src="/avatar/vendor/live2dcubismcore.min.js?v=20260325"></script>
+    <script src="/avatar/vendor/pixi.min.js?v=20260325"></script>
+    <script src="/avatar/vendor/pixi-live2d-display.min.js?v=20260325"></script>
+    <script src="/avatar/live2d-adapter.js?v=20260325g"></script>
     <script src="/avatar/placeholder-adapter.js"></script>
-    <script type="module" src="/app.js"></script>
+    <script type="module" src="/app.js?v=20260325g"></script>
   </body>
 </html>

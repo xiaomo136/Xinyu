@@ -19,7 +19,7 @@
   - `edge_xiaoxiao`
   - `local_service`
 - 浏览器语音识别 / 浏览器语音播放兜底
-- 数字人占位舞台，后续可替换为 Live2D
+- 已接入 Live2D 数字人（默认 Hiyori）
 
 ## 运行 Web 服务
 
@@ -103,6 +103,12 @@ POST /api/asr/recognize
 ```
 
 发送 WAV Base64，再由后端转发给 FunASR 桥接服务。
+
+另外，`/api/asr/recognize` 也兼容评测模式：
+
+- `Content-Type: audio/mpeg`（或其他音频类型）
+- Body 直接传二进制 mp3
+- 返回 `{"result":"这是一个测试语音。"}`
 
 ## TTS 三种方式
 
@@ -250,7 +256,15 @@ POST /api/tts/provider
 - `public/index.html`：网页结构
 - `public/styles.css`：界面样式
 - `public/app.js`：前端交互逻辑
-- `public/avatar/placeholder-adapter.js`：数字人占位适配器
+- `public/avatar/live2d-adapter.js`：Live2D 适配器
+- `public/avatar/live2d/characters/free/Hiyori/`：Live2D 模型资源
+- `public/avatar/placeholder-adapter.js`：占位适配器（兜底）
+
+## Live2D 说明
+
+- 默认角色模型来自 `awesome-digital-human-live2d` 项目中的 Hiyori 资源。
+- 本地配置位置：`config/app.config.json` -> `providers.avatar`。
+- 如果 Live2D 运行时不可用，前端会自动回退到占位数字人，避免页面不可用。
 
 ## 比赛 Baseline
 

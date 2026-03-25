@@ -53,7 +53,7 @@ input {
 
 .hero-card {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.05fr 0.95fr;
   gap: 18px;
   padding: 22px;
   overflow: hidden;
@@ -90,11 +90,12 @@ h1 {
 }
 
 .avatar-stage {
-  min-height: 280px;
+  min-height: 460px;
   border-radius: 28px;
   border: 1px solid rgba(103, 118, 110, 0.12);
   background: radial-gradient(circle at top, rgba(255, 255, 255, 0.98), rgba(244, 236, 224, 0.82));
-  padding: 18px;
+  padding: 8px;
+  overflow: hidden;
 }
 
 .dashboard-grid {
@@ -275,6 +276,15 @@ textarea {
   width: 100%;
 }
 
+.slider-row select {
+  width: 100%;
+  border: 1px solid rgba(101, 116, 109, 0.16);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(250, 251, 249, 0.96);
+  color: var(--text);
+}
+
 .composer-hint {
   color: var(--muted);
   font-size: 13px;
@@ -356,6 +366,44 @@ textarea {
   height: 12px;
 }
 
+.live2d-shell {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.live2d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.avatar-stage .avatar-caption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.live2d-loading {
+  position: absolute;
+  right: 30px;
+  top: 26px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 93, 86, 0.2);
+  background: rgba(255, 255, 255, 0.86);
+  color: #4a5d56;
+  font-size: 12px;
+}
+
 @keyframes floaty {
   0%,
   100% {
@@ -379,5 +427,9 @@ textarea {
 
   h1 {
     font-size: 36px;
+  }
+
+  .avatar-stage {
+    min-height: 360px;
   }
 }

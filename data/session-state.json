@@ -1,9 +1,9 @@
 {
-  "summary": "用户提到“我的名字”，当时情绪偏平静",
+  "summary": "用户提到“我想找个人聊聊天”，当时情绪偏平静",
   "turns": [
     {
-      "userText": "妈找不到一呀我操了",
-      "assistantText": "听起来你现在可能有些情绪波动，想和人倾诉一下。我们可以继续聊聊其他的事情，这样可能会让你感觉好一些。有什么让你感到特别的吗？",
+      "userText": "我昨晚没睡好",
+      "assistantText": "我昨晚没睡好",
       "analysis": {
         "dominantEmotion": "平静",
         "riskLevel": "低",
@@ -12,150 +12,15 @@
         "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
       },
       "avatar": {
-        "expression": "calm",
-        "motion": "idle",
         "subtitle": "我在这里，随时听你说。",
         "accent": "#4b8f8c"
       },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:14:30.477Z"
-    },
-    {
-      "userText": "は",
-      "assistantText": "是遇到了什么让你觉得有点困扰的事情了吗？想要好好聊聊吗？我在这里倾听。",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:14:44.604Z"
-    },
-    {
-      "userText": "付易轩",
-      "assistantText": "你的名字是“付易轩”呢，有其他事情需要聊聊或者想问的吗？我可以陪你一起度过这个时刻。",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:14:54.549Z"
-    },
-    {
-      "userText": "你记清楚我的名字付艺轩你记清楚了啊",
-      "assistantText": "你说的是“付艺轩”，记住了。有什么特别的事情想要和我说说吗？我很愿意倾听。",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:15:08.986Z"
-    },
-    {
-      "userText": "what is my name",
-      "assistantText": "你的名字是“付易轩”呢，需要我帮你找找其他的昵称或喜好聊一聊吗？",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:15:20.979Z"
-    },
-    {
-      "userText": "好的飞学员睡觉了再见",
-      "assistantText": "好的，晚安！希望你有一个好梦。如果醒来有任何想聊的，随时都可以来找我。再见。",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:15:31.942Z"
-    },
-    {
-      "userText": "good night",
-      "assistantText": "好night，祝你好眠。明天见！",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:15:43.786Z"
-    },
-    {
-      "userText": "妈好赖",
-      "assistantText": "哎呀，听起来好像有点困扰呢。有事情想和我说说吗？或者需要放松一下心情？我很愿意陪你一起。",
-      "analysis": {
-        "dominantEmotion": "平静",
-        "riskLevel": "低",
-        "score": 0,
-        "reasons": [],
-        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
-      },
-      "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
-      },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:15:52.587Z"
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:16:22.805Z"
     },
     {
       "userText": "我今天有点孤单",
-      "assistantText": "嗯，孤单的时候确实会感觉有些难过吧。这样吧，我们一起想想办法，比如分享一些最近的趣事或者是美好回忆怎么样？希望可以帮你打起精神来。",
+      "assistantText": "我今天有点孤单",
       "analysis": {
         "dominantEmotion": "低落",
         "riskLevel": "低",
@@ -164,17 +29,32 @@
         "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
       },
       "avatar": {
-        "expression": "gentle",
-        "motion": "forward-lean",
         "subtitle": "慢慢说，我会认真听着。",
         "accent": "#6f87a8"
       },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:16:04.272Z"
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:22:13.996Z"
     },
     {
-      "userText": "不关掉他妈的又晚了自动说话怎么办",
-      "assistantText": "听你这么说，我能理解你可能有点烦躁。如果你觉得现在不想和我说话也没关系，早点休息对身体好。如果以后还有心情聊天或需要什么帮助的话，我在这儿呢。晚安！",
+      "userText": "我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单",
+      "assistantText": "我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单我今天有点孤单",
+      "analysis": {
+        "dominantEmotion": "低落",
+        "riskLevel": "低",
+        "score": 10,
+        "reasons": [],
+        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
+      },
+      "avatar": {
+        "subtitle": "慢慢说，我会认真听着。",
+        "accent": "#6f87a8"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:22:59.427Z"
+    },
+    {
+      "userText": "我昨晚没睡好",
+      "assistantText": "我昨晚没睡好",
       "analysis": {
         "dominantEmotion": "平静",
         "riskLevel": "低",
@@ -183,17 +63,15 @@
         "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
       },
       "avatar": {
-        "expression": "calm",
-        "motion": "idle",
         "subtitle": "我在这里，随时听你说。",
         "accent": "#4b8f8c"
       },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:16:41.986Z"
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:23:10.647Z"
     },
     {
-      "userText": "我怎么跟你实时对话",
-      "assistantText": "看起来我们之间是通过文字交流的。你可以继续告诉我你的感受或者想聊的事情，我会尽力陪在你身边。希望这样可以帮到你。",
+      "userText": "我想找个人聊聊天",
+      "assistantText": "我想找个人聊聊天",
       "analysis": {
         "dominantEmotion": "平静",
         "riskLevel": "低",
@@ -202,46 +80,150 @@
         "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
       },
       "avatar": {
-        "expression": "calm",
-        "motion": "idle",
         "subtitle": "我在这里，随时听你说。",
         "accent": "#4b8f8c"
       },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:17:58.702Z"
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:28:16.253Z"
     },
     {
-      "userText": "你为什么不说话",
-      "assistantText": "有时候我需要一些时间来思考如何最好地回应你的感受和想法。如果你现在没有事情想说，我可以先安静听着。如果之后你有话想说或者想要聊聊天，随时告诉我都可以。晚安！",
+      "userText": "我今天有点孤单",
+      "assistantText": "我今天有点孤单",
       "analysis": {
-        "dominantEmotion": "平静",
+        "dominantEmotion": "低落",
         "riskLevel": "低",
-        "score": 0,
+        "score": 10,
         "reasons": [],
         "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
       },
       "avatar": {
-        "expression": "calm",
-        "motion": "idle",
-        "subtitle": "我在这里，随时听你说。",
-        "accent": "#4b8f8c"
+        "subtitle": "慢慢说，我会认真听着。",
+        "accent": "#6f87a8"
       },
-      "providerName": "ollama",
-      "createdAt": "2026-03-24T17:18:15.255Z"
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:28:24.833Z"
+    },
+    {
+      "userText": "我今天有点孤单",
+      "assistantText": "我今天有点孤单",
+      "analysis": {
+        "dominantEmotion": "低落",
+        "riskLevel": "低",
+        "score": 10,
+        "reasons": [],
+        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
+      },
+      "avatar": {
+        "subtitle": "慢慢说，我会认真听着。",
+        "accent": "#6f87a8"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:35:39.037Z"
+    },
+    {
+      "userText": "我今天有点孤单",
+      "assistantText": "我今天有点孤单",
+      "analysis": {
+        "dominantEmotion": "低落",
+        "riskLevel": "低",
+        "score": 10,
+        "reasons": [],
+        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
+      },
+      "avatar": {
+        "subtitle": "慢慢说，我会认真听着。",
+        "accent": "#6f87a8"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:42:06.354Z"
+    },
+    {
+      "userText": "我现在有点焦虑",
+      "assistantText": "我现在有点焦虑",
+      "analysis": {
+        "dominantEmotion": "焦虑",
+        "riskLevel": "中",
+        "score": 28,
+        "reasons": [
+          "检测到消极信号：焦虑"
+        ],
+        "supportAdvice": "优先做放松引导，帮助用户慢呼吸、坐稳、描述当下环境。"
+      },
+      "avatar": {
+        "subtitle": "我们先放慢一点，一起把呼吸稳住。",
+        "accent": "#5b8c6a"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:42:12.197Z"
+    },
+    {
+      "userText": "我现在有点焦虑",
+      "assistantText": "我现在有点焦虑",
+      "analysis": {
+        "dominantEmotion": "焦虑",
+        "riskLevel": "中",
+        "score": 28,
+        "reasons": [
+          "检测到消极信号：焦虑"
+        ],
+        "supportAdvice": "优先做放松引导，帮助用户慢呼吸、坐稳、描述当下环境。"
+      },
+      "avatar": {
+        "subtitle": "我们先放慢一点，一起把呼吸稳住。",
+        "accent": "#5b8c6a"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:42:33.139Z"
+    },
+    {
+      "userText": "我今天有点孤单",
+      "assistantText": "我今天有点孤单",
+      "analysis": {
+        "dominantEmotion": "低落",
+        "riskLevel": "低",
+        "score": 10,
+        "reasons": [],
+        "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
+      },
+      "avatar": {
+        "subtitle": "慢慢说，我会认真听着。",
+        "accent": "#6f87a8"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:59:25.695Z"
+    },
+    {
+      "userText": "我现在有点焦虑",
+      "assistantText": "我现在有点焦虑",
+      "analysis": {
+        "dominantEmotion": "焦虑",
+        "riskLevel": "中",
+        "score": 28,
+        "reasons": [
+          "检测到消极信号：焦虑"
+        ],
+        "supportAdvice": "优先做放松引导，帮助用户慢呼吸、坐稳、描述当下环境。"
+      },
+      "avatar": {
+        "subtitle": "我们先放慢一点，一起把呼吸稳住。",
+        "accent": "#5b8c6a"
+      },
+      "providerName": "repeater",
+      "createdAt": "2026-03-25T09:59:39.560Z"
     }
   ],
   "lastAnalysis": {
-    "dominantEmotion": "平静",
-    "riskLevel": "低",
-    "score": 0,
-    "reasons": [],
-    "supportAdvice": "保持自然陪聊，继续观察用户情绪变化。"
+    "dominantEmotion": "焦虑",
+    "riskLevel": "中",
+    "score": 28,
+    "reasons": [
+      "检测到消极信号：焦虑"
+    ],
+    "supportAdvice": "优先做放松引导，帮助用户慢呼吸、坐稳、描述当下环境。"
   },
   "lastAvatar": {
-    "expression": "calm",
-    "motion": "idle",
-    "subtitle": "我在这里，随时听你说。",
-    "accent": "#4b8f8c"
+    "subtitle": "我们先放慢一点，一起把呼吸稳住。",
+    "accent": "#5b8c6a"
   },
-  "updatedAt": "2026-03-24T17:18:15.255Z"
+  "updatedAt": "2026-03-25T09:59:39.560Z"
 }

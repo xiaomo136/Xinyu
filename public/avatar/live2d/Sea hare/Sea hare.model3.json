@@ -1,0 +1,28 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Sea hare.moc3",
+		"Textures": [
+			"Sea hare.4096/texture_00.png",
+			"Sea hare.4096/texture_01.png",
+			"Sea hare.4096/texture_02.png",
+			"Sea hare.4096/texture_03.png",
+			"Sea hare.4096/texture_04.png",
+			"Sea hare.4096/texture_05.png"
+		],
+		"Physics": "Sea hare.physics3.json",
+		"DisplayInfo": "Sea hare.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

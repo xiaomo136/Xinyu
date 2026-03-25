@@ -37,6 +37,10 @@ def frcorr(predictions: np.ndarray, references: np.ndarray, neighbors: Iterable[
     return total / predictions.shape[0]
 
 
+def pmafrg_frcorr(predictions: np.ndarray, references: np.ndarray, neighbors: Iterable[Iterable[int]] | None = None) -> float:
+    return frcorr(predictions, references, neighbors=neighbors)
+
+
 def frdist(
     predictions: np.ndarray,
     references: np.ndarray,
@@ -56,6 +60,15 @@ def frdist(
             )
             total += best
     return total / predictions.shape[0]
+
+
+def pmafrg_frdist(
+    predictions: np.ndarray,
+    references: np.ndarray,
+    neighbors: Iterable[Iterable[int]] | None = None,
+    dtw_stride: int = 1,
+) -> float:
+    return frdist(predictions, references, neighbors=neighbors, dtw_stride=dtw_stride)
 
 
 def frdiv(predictions: np.ndarray) -> float:

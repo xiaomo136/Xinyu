@@ -1,5 +1,6 @@
 param(
-  [string]$PythonPath = "C:\Users\ROG\AppData\Local\Programs\Python\Python311\python.exe"
+  [string]$PythonPath = "C:\Users\ROG\AppData\Local\Programs\Python\Python311\python.exe",
+  [switch]$ForceRestart
 )
 
 $ErrorActionPreference = "Stop"
@@ -8,6 +9,21 @@ $rootDir = Split-Path -Parent $PSScriptRoot
 Set-Location $rootDir
 
 $config = Get-Content ".\config\app.config.json" -Raw | ConvertFrom-Json
+
+function Get-ListeningProcessId {
+  param(
+    [Parameter(Mandatory = $true)]
+    [int]$Port
+  )
+
+  try {
+    $conn = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction Stop |
+      Select-Object -First 1
+    return $conn.OwningProcess
+  } catch {
+    return $null
+  }
+}
 
 function Test-HttpReady {
   param(
@@ -59,4 +75,19 @@ if ($config.providers.asr.type -eq "funasr") {
 }
 
 Write-Host "[xinyu] Starting web server..."
+$port = [int]$config.app.port
+$pidInUse = Get-ListeningProcessId -Port $port
+
+if ($pidInUse) {
+  if ($ForceRestart) {
+    Write-Warning "[xinyu] Port $port is in use by PID $pidInUse. Force restarting..."
+    Stop-Process -Id $pidInUse -Force -ErrorAction Stop
+    Start-Sleep -Milliseconds 300
+  } else {
+    Write-Warning "[xinyu] Port $port is already in use by PID $pidInUse."
+    Write-Host "[xinyu] Existing service is likely already running. Use -ForceRestart to restart it."
+    return
+  }
+}
+
 node .\server\index.js
