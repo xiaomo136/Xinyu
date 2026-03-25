@@ -1,0 +1,104 @@
+﻿{
+  "app": {
+    "name": "心语",
+    "tagline": "一个面向情感陪护场景的 Web 数字伴侣",
+    "host": "0.0.0.0",
+    "port": 3000
+  },
+  "persona": {
+    "assistantName": "心语",
+    "systemRole": "你是一个温柔、可靠、面向情感陪护场景的数字伴侣，擅长倾听、共情、安抚和轻度引导。",
+    "replyStyle": "回复自然、口语化、有温度，不说教，不居高临下。优先控制在 2 到 4 句内。",
+    "safetyBoundary": "你不能做临床诊断。遇到明显高风险表达时，应先安抚并建议联系家人、医生或专业热线。"
+  },
+  "conversation": {
+    "maxHistoryTurns": 12,
+    "summarySourceTurns": 8,
+    "maxReplyChars": 160
+  },
+  "providers": {
+    "llm": {
+      "type": "ollama",
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "model": "qwen2.5:3b",
+        "timeoutMs": 45000
+      }
+    },
+    "asr": {
+      "type": "funasr",
+      "funasr": {
+        "baseUrl": "http://127.0.0.1:8778",
+        "recognizePath": "/recognize",
+        "timeoutMs": 60000,
+        "sampleRate": 16000
+      }
+    },
+    "tts": {
+      "type": "browser",
+      "activeProvider": "edge_xiaoxiao",
+      "windows": {
+        "pythonPath": "C:\\Users\\ROG\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "voiceHint": "Chinese",
+        "rate": 150,
+        "volume": 1.0
+      },
+      "localService": {
+        "url": "http://127.0.0.1:9880/tts",
+        "timeoutMs": 60000
+      },
+      "api": {
+        "provider": "gitee_async_audio_speech",
+        "url": "https://ai.gitee.com/v1/async/audio/speech",
+        "statusUrlTemplate": "https://ai.gitee.com/v1/task/{task_id}",
+        "token": "SOCKDKXJLLNL9LLUCJJQHW4XUNAOOC85P7I7N7YA",
+        "model": "Spark-TTS-0.5B",
+        "gender": "male",
+        "pitch": 3,
+        "speed": 3,
+        "method": "POST",
+        "headers": {},
+        "timeoutMs": 60000,
+        "pollIntervalMs": 1500,
+        "maxAttempts": 180
+      }
+    },
+    "avatar": {
+      "type": "placeholder"
+    }
+  },
+  "safety": {
+    "highRiskKeywords": [
+      "不想活了",
+      "活着没意思",
+      "结束自己",
+      "轻生",
+      "自杀",
+      "撑不下去了"
+    ],
+    "negativeKeywords": [
+      "难受",
+      "孤独",
+      "睡不着",
+      "焦虑",
+      "心慌",
+      "压抑",
+      "胸闷",
+      "想哭",
+      "烦"
+    ],
+    "positiveKeywords": [
+      "开心",
+      "高兴",
+      "放松",
+      "轻松",
+      "踏实"
+    ]
+  },
+  "quickPhrases": [
+    "我今天有点孤单",
+    "我昨晚没睡好",
+    "我想找个人聊聊天",
+    "我现在有点焦虑"
+  ]
+}

@@ -1,0 +1,10 @@
+﻿{
+  "name": "xinyu-web-app",
+  "version": "0.2.0",
+  "description": "心语 Web：可接入 Qwen2.5、FunASR 与多种 TTS 的情感陪护数字人基础工程",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js"
+  }
+}
